@@ -8,8 +8,8 @@ finWindow.hide();
 
 var questions = [
 	{ id: 'one', question: 'What is my Name?', opOne: 'George', opTwo: 'Bryant', opThree: 'Kaiyer', opFour: 'Ikaika' },
-	{ id: 'two' ,question: 'What has legs?', opOne: 'snake', opTwo: 'fish', opThree: 'worm', opFour: 'dog'},
-	{ id: 'three' ,question: 'What island is Honolulu located on?', opOne: 'Oahu', opTwo: 'Maui', opThree: "Kaho'olawe", opFour: 'Niihau'},
+	{ id: 'two', question: 'What has legs?', opOne: 'snake', opTwo: 'fish', opThree: 'worm', opFour: 'dog'},
+	{ id: 'three', question: 'What island is Honolulu located on?', opOne: 'Oahu', opTwo: 'Maui', opThree: "Kaho'olawe", opFour: 'Niihau'},
 ];
 
 var questionsDone = [];
@@ -40,7 +40,7 @@ function mainTimer() {
 		$('#timeLimit').text(time);
 		gameWindow.hide();
 		finWindow.show();
-		finWindow.text('Time Up');
+		finWindow.text('Incorrect, correct answer is ' + $('[data-correct=true]').text());
 		intTimer = setInterval(intervalTimer , 1000);
 	}
 }
@@ -67,7 +67,7 @@ function pauGame() {
 	startOver.text('Start Over?')
 	finWindow.append(startOver);
 }
-
+var randomQues;
 function questionGen() {
 	timerDis.show();
 	gameWindow.show();
@@ -82,7 +82,7 @@ function questionGen() {
 		$('#timeLimit').text(time);
 		timer = setInterval(mainTimer, 1000);
 
-		var randomQues = Math.floor(Math.random() * questions.length);
+		randomQues = Math.floor(Math.random() * questions.length);
 		$('#question').text(questions[randomQues].question);
 
 		var opID = ['opOne' , 'opTwo' , 'opThree' , 'opFour'];
@@ -109,10 +109,8 @@ function questionGen() {
 		$('#opFour').text(questions[randomQues].opFour);
 		
 		questionsDone.push(questions[randomQues]);
-		questions.splice(randomQues , 1);
 
 	}
-	console.log(questions, questionsDone);
 }
 
 $('#start').on('click' , function() {
@@ -128,12 +126,14 @@ $(document).on('click' , '.options' , function() {
 		finWindow.show();
 		finWindow.text('Correct');
 		intTimer = setInterval(intervalTimer , 1000);
+		questions.splice(randomQues, 1);
 		wins++;
 	} else {
 		gameWindow.hide();
 		finWindow.show();
-		finWindow.text('Incorrect');
+		finWindow.text('Incorrect, correct answer is ' + $('[data-correct=true]').text());
 		intTimer = setInterval(intervalTimer , 1000);
+		questions.splice(randomQues, 1);
 		losses++;
 	}
 clearInterval(timer);
