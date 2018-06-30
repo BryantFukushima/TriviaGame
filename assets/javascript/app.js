@@ -1,135 +1,153 @@
-$('.gameWindow').hide();
+var finWindow = $('.finWindow');
+var timerDis = $('#timer');
+var gameWindow = $('.gameWindow');
 
-var optionID = ['optionOne', 'optionTwo' , 'optionThree' , 'optionFour'];
+timerDis.hide();
+gameWindow.hide();
+finWindow.hide();
 
-function optionButtons() {
-for (var i = 0; i < 4; i++) {
-	var opButton = $('<button>');
-	var opDiv = $('<div>');
-	opButton.addClass('options');
-	opButton.attr('id' , optionID[i]);
-	opButton.attr('data-answer' , false);
-	opDiv.html(opButton);
+var questions = [
+	{ id: 'one', question: 'What is my Name?', opOne: 'George', opTwo: 'Bryant', opThree: 'Kaiyer', opFour: 'Ikaika' },
+	{ id: 'two' ,question: 'What has legs?', opOne: 'snake', opTwo: 'fish', opThree: 'worm', opFour: 'dog'},
+	{ id: 'three' ,question: 'What island is Honolulu located on?', opOne: 'Oahu', opTwo: 'Maui', opThree: "Kaho'olawe", opFour: 'Niihau'},
+];
 
-	$('.choices').append(opDiv);
-}
-}
-optionButtons();
+var questionsDone = [];
 
-var seconds = 30;
-var timer;
-$('#timeLimit').text(seconds);
+var seconds = 3;
+var intTimer;
+function intervalTimer() {
+	seconds--;
 
-
-function startTimer(){
-		seconds--;
-		$('#timeLimit').text(seconds);
-
-		if (seconds <= 0) {
-			clearInterval(timer);
-			seconds = 0;
-			$('#timeLimit').text(seconds);
-		}
+	if (seconds == 0) {
+		clearInterval(intTimer);
+		seconds = 3;
+		questionGen();
 	}
+}
+
+var time;
+var timer;
+$('#timeLimit').text(time);
+
+function mainTimer() {
+	time--;
+	$('#timeLimit').text(time);
+
+	if (time <= 0) {
+		clearInterval(timer);
+		time = 0;
+		$('#timeLimit').text(time);
+		gameWindow.hide();
+		finWindow.show();
+		finWindow.text('Time Up');
+		intTimer = setInterval(intervalTimer , 1000);
+	}
+}
+
+var wins = 0;
+var losses = 0;
+
+function pauGame() {
+	clearInterval(timer);
+	clearInterval(intTimer);
+	gameWindow.hide();
+	timerDis.hide();
+	finWindow.empty();
+	finWindow.show();
+	var pau = $('<h2>');
+	pau.addClass('pau');
+	pau.text('Pau Game');
+	finWindow.append(pau);
+	var results = $('<p>');
+	results.text('Correct: ' + wins + ' Incorrect: ' + losses);
+	finWindow.append(results);
+	var startOver = $('<span>');
+	startOver.addClass('restart');
+	startOver.text('Start Over?')
+	finWindow.append(startOver);
+}
+
+function questionGen() {
+	timerDis.show();
+	gameWindow.show();
+	finWindow.hide();
+	$('.choices').empty();
+
+	if (questions.length == 0) {
+		pauGame();
+	} else {
+
+		time = 15;
+		$('#timeLimit').text(time);
+		timer = setInterval(mainTimer, 1000);
+
+		var randomQues = Math.floor(Math.random() * questions.length);
+		$('#question').text(questions[randomQues].question);
+
+		var opID = ['opOne' , 'opTwo' , 'opThree' , 'opFour'];
+		for (var i = 0; i < 4; i++){
+			var opSelect = $('<div>');
+			opSelect.addClass('options');
+			opSelect.attr('id' , opID[i]);
+			opSelect.attr('data-correct' , false);
+			$('.choices').append(opSelect);
+		}
+		
+		if (questions[randomQues].id == 'one') {
+			$('#opTwo').attr('data-correct' , true);
+		} else if (questions[randomQues].id == 'two') {
+			$('#opFour').attr('data-correct' , true);
+		} else if (questions[randomQues].id == 'three') {
+			$('#opOne').attr('data-correct' , true);
+		}
+
+
+		$('#opOne').text(questions[randomQues].opOne);
+		$('#opTwo').text(questions[randomQues].opTwo);
+		$('#opThree').text(questions[randomQues].opThree);
+		$('#opFour').text(questions[randomQues].opFour);
+		
+		questionsDone.push(questions[randomQues]);
+		questions.splice(randomQues , 1);
+
+	}
+	console.log(questions, questionsDone);
+}
 
 $('#start').on('click' , function() {
 	$(this).hide();
-	$('.gameWindow').show();
-	timer = setInterval(startTimer, 1000);
-	questionOne();
+	timerDis.show();
+	gameWindow.show();
+	questionGen();
 });
-
-function questionOne() {
-	$('#question').text('What is my Name?');
-	$('#optionOne').text('George');
-	$('#optionTwo').text('Kaiyer');
-	$('#optionThree').text('Bryant');
-	$('#optionFour').text('Keoni');
-
-	$('#optionThree').attr('data-answer' , true);
-}
-function questionTwo() {
-	$('.choices').empty();
-	optionButtons();
-	$('#question').text('Who this');
-	$('#optionOne').text('Geo');
-	$('#optionTwo').text('Kr');
-	$('#optionThree').text('Bnt');
-	$('#optionFour').text('Ki');
-
-	$('#optionFour').attr('data-answer' , true);
-}
-function questionThree() {
-	$('.choices').empty();
-	optionButtons();
-	$('#question').text('Say What');
-	$('#optionOne').text('asdf');
-	$('#optionTwo').text('lksdn');
-	$('#optionThree').text('adnj');
-	$('#optionFour').text('lnasdnl');
-
-	$('#optionOne').attr('data-answer' , true);
-}
-
-function finished() {
-	$('.container').empty();
-	var winDis = $('<h1>');
-	winDis.text('Pau Game');
-	$('.container').html(winDis);
-}
-
-
-var inter = 5;
-var interTimer;
-var onQuestion = 0;
-
-function interTimerStart() {
-
-	inter--;
-
-	 if(inter <= 0) {
-		seconds = 30;
-		$('#timeLimit').text(seconds);
-		timer = setInterval(startTimer, 1000);
-		clearInterval(interTimer);
-		inter = 5;
-
-			if (onQuestion == 1) {
-				questionTwo();	
-			} else if (onQuestion == 2) {
-				questionThree();
-			} 
-	}
-
-
-
-}
 
 $(document).on('click' , '.options' , function() {
-	
-	if ($(this).attr('data-answer') == "true") {
-
-		$('#question').text('Correct!');
-		$('.choices').html('You So Smart');
-		clearInterval(timer);
-		$('#timeLimit').text(seconds);
-		interTimer = setInterval(interTimerStart, 1000);
-		onQuestion++;
-		if (onQuestion == 3){
-			winner();
-		}	
-
+	if ($(this).attr('data-correct') == "true") {
+		gameWindow.hide();
+		finWindow.show();
+		finWindow.text('Correct');
+		intTimer = setInterval(intervalTimer , 1000);
+		wins++;
 	} else {
-		$('#question').text('Sorry, incorrect answer.');
-		$('.choices').html('uh oh');
-		clearInterval(timer);
-		$('#timeLimit').text(seconds);
-		interTimer = setInterval(interTimerStart, 1000);
-		onQuestion++;
+		gameWindow.hide();
+		finWindow.show();
+		finWindow.text('Incorrect');
+		intTimer = setInterval(intervalTimer , 1000);
+		losses++;
 	}
+clearInterval(timer);
+
 });
 
-
-
-
-		
+$(document).on('click' , '.restart' , function() {
+	finWindow.empty();
+	finWindow.hide();
+	for (var index in questionsDone) {
+		questions.push(questionsDone[index]);
+	}
+	questionsDone.splice(0,questionsDone.length);
+	wins = 0;
+	losses = 0;
+	questionGen();
+});
