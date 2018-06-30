@@ -1,19 +1,42 @@
+.container {
+	text-align: center;
+}
+
 #start , .restart {
 	border: 4px solid black;
 	padding: 5px; 
+	width: 100px;
+	margin: auto;
 }
 
 #start:hover {
 	background: rgba(0 , 200 , 200 , 0.5);
 	cursor: pointer;
+	transform: translateY(-2%);
+	box-shadow: 1px 1px 5px black;
+}
+
+#question {
+	color: darkorange;
+}
+
+.options {
+	width: 400px;
+	padding: 10px;
+	border: 5px solid black;
+	margin: 20px auto;
 }
 
 .options:hover {
-	color: blue;
+	background: rgba(0, 200, 0, 0.2);
 	cursor: pointer;
+	transform: translateY(-2%);
+	box-shadow: 1px 1px 5px black;
 }
 
 .restart:hover {
 	background: rgba(200 , 0 , 0 , 0.5);
 	cursor: pointer;
+	transform: translateY(-2%);
+	box-shadow: 1px 1px 5px black;
 }
