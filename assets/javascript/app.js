@@ -46,6 +46,8 @@ function mainTimer() {
 		finWindow.show();
 		finWindow.text('Time is up. Correct answer is ' + $('[data-correct=true]').text());
 		intTimer = setInterval(intervalTimer , 1000);
+		questions.splice(randomQues, 1);
+		losses++;
 	}
 }
 
@@ -61,7 +63,7 @@ function pauGame() {
 	finWindow.show();
 	var pau = $('<h2>');
 	pau.addClass('pau');
-	pau.text('Pau Game');
+	pau.text('Game Over');
 	finWindow.append(pau);
 	var results = $('<p>');
 	results.text('Correct: ' + wins + ' Incorrect: ' + losses);
