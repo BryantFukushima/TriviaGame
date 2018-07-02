@@ -42,9 +42,10 @@ function mainTimer() {
 		clearInterval(timer);
 		time = 0;
 		$('#timeLimit').text(time);
-		gameWindow.hide();
-		finWindow.show();
-		finWindow.text('Time is up. Correct answer is ' + $('[data-correct=true]').text());
+		// gameWindow.hide();
+		// finWindow.show();
+		// finWindow.text('Time is up. Correct answer is ' + $('[data-correct=true]').text());
+		$('[data-correct=true]').css('background' , 'green');
 		intTimer = setInterval(intervalTimer , 1000);
 		questions.splice(randomQues, 1);
 		losses++;
@@ -135,16 +136,15 @@ $('#start').on('click' , function() {
 
 $(document).on('click' , '.options' , function() {
 	if ($(this).attr('data-correct') == "true") {
-		gameWindow.hide();
-		finWindow.show();
-		finWindow.text('Correct');
+		$('#question').text('Correct');
+		$('[data-correct=true]').css('background' , 'green');
 		intTimer = setInterval(intervalTimer , 1000);
 		questions.splice(randomQues, 1);
 		wins++;
 	} else {
-		gameWindow.hide();
-		finWindow.show();
-		finWindow.text('Incorrect, correct answer is ' + $('[data-correct=true]').text());
+		$('#question').text('Sorry! The correct answer is ' + $('[data-correct=true]').text());
+		$(this).css('background' , 'red');
+		$('[data-correct=true]').css('background' , 'green');
 		intTimer = setInterval(intervalTimer , 1000);
 		questions.splice(randomQues, 1);
 		losses++;
