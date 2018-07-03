@@ -1,34 +1,61 @@
-.container {
+body , html {
+	height: 100%;
+}
+
+body {
+	background: url('../images/back.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100%;
+	font-family: 'Slackey', cursive;
+}
+
+.wrapper {
+	height: 100%;
+}
+
+.play-area {
 	text-align: center;
-	position: absolute;
-	top: 50%;
-	left:  50%;
-	transform: translate(-50% , -50%);
+	background: rgba(255,229,137,0.9);
 	margin: auto;
+	min-height: 80%;
+	width: 75%;
+	padding: 20px;
+}
+
+#title {
+	text-align: center;
+	padding: 20px;
+	color: rgba(85,191,242, 1);
+	font-size: 52px;
+}
+
+#timer {
+	font-size: 36px;
 }
 
 #start , .restart {
-	border: 4px solid black;
+	border: 1px solid black;
 	padding: 5px; 
-	width: 100px;
 	margin: auto;
 }
 
 #start:hover {
-	background: rgba(0 , 200 , 200 , 0.5);
 	cursor: pointer;
 	transform: translateY(-2%);
 	box-shadow: 1px 1px 5px black;
 }
 
 #question {
-	color: darkorange;
+	color: rgba(255,113,31, 1);
+	font-size: 36px;
 }
 
 .options {
 	width: 400px;
 	padding: 10px;
-	border: 5px solid black;
+	border: 1px solid black;
 	margin: 20px auto;
 }
 
@@ -40,7 +67,6 @@
 }
 
 .restart:hover {
-	background: rgba(200 , 0 , 0 , 0.5);
 	cursor: pointer;
 	transform: translateY(-2%);
 	box-shadow: 1px 1px 5px black;

@@ -44,7 +44,7 @@ function mainTimer() {
 		$('#timeLimit').text(time);
 		// gameWindow.hide();
 		// finWindow.show();
-		// finWindow.text('Time is up. Correct answer is ' + $('[data-correct=true]').text());
+		$('#question').text('Time is up! The correct answer is ' + $('[data-correct=true]').text());
 		$('[data-correct=true]').css('background' , 'green');
 		intTimer = setInterval(intervalTimer , 1000);
 		questions.splice(randomQues, 1);
@@ -69,8 +69,8 @@ function pauGame() {
 	var results = $('<p>');
 	results.text('Correct: ' + wins + ' Incorrect: ' + losses);
 	finWindow.append(results);
-	var startOver = $('<p>');
-	startOver.addClass('restart');
+	var startOver = $('<button>');
+	startOver.addClass('restart btn btn-info');
 	startOver.text('Start Over?')
 	finWindow.append(startOver);
 }
@@ -85,7 +85,7 @@ function questionGen() {
 		pauGame();
 	} else {
 
-		time = 30;
+		time = 25;
 		$('#timeLimit').text(time);
 		timer = setInterval(mainTimer, 1000);
 
@@ -127,7 +127,7 @@ function questionGen() {
 	}
 }
 
-$('#start').on('click' , function() {
+$('.start').on('click' , function() {
 	$(this).hide();
 	timerDis.show();
 	gameWindow.show();
@@ -150,6 +150,14 @@ $(document).on('click' , '.options' , function() {
 		losses++;
 	}
 clearInterval(timer);
+
+	if (
+		$('#question').text() != 'Sorry! The correct answer is ' + $('[data-correct=true]').text() || 
+		$('#question').text() != 'Time is up! The correct answer is ' + $('[data-correct=true]').text() || 
+		$('#question').text() != 'Correct'
+		) {
+
+	}
 
 });
 
