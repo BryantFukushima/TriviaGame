@@ -70,7 +70,7 @@ function pauGame() {
 	results.text('Correct: ' + wins + ' Incorrect: ' + losses);
 	finWindow.append(results);
 	var startOver = $('<button>');
-	startOver.addClass('restart btn btn-info');
+	startOver.addClass('restart btn btn-danger');
 	startOver.text('Start Over?')
 	finWindow.append(startOver);
 }
@@ -150,14 +150,6 @@ $(document).on('click' , '.options' , function() {
 		losses++;
 	}
 clearInterval(timer);
-
-	if (
-		$('#question').text() != 'Sorry! The correct answer is ' + $('[data-correct=true]').text() || 
-		$('#question').text() != 'Time is up! The correct answer is ' + $('[data-correct=true]').text() || 
-		$('#question').text() != 'Correct'
-		) {
-
-	}
 
 });
 
